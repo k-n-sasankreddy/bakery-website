@@ -4,695 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Bakery</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #8B4513;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-size: 1rem;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: #8B4513;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #8B4513;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-        }
-
-        /* Pages */
-        .page {
-            display: none;
-            min-height: calc(100vh - 80px);
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* Home Page */
-        .hero {
-            background: linear-gradient(rgba(139, 69, 19, 0.7), rgba(139, 69, 19, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f5e6d3" width="1200" height="600"/><circle cx="200" cy="150" r="80" fill="%23d4a574" opacity="0.3"/><circle cx="900" cy="400" r="100" fill="%23d4a574" opacity="0.3"/></svg>');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            background: white;
-            color: #8B4513;
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 4rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .feature h3 {
-            color: #8B4513;
-            margin: 1rem 0;
-            font-size: 1.5rem;
-        }
-
-        /* Menu Page */
-        .menu-container {
-            padding: 3rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .menu-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .menu-header h1 {
-            font-size: 2.5rem;
-            color: #8B4513;
-            margin-bottom: 0.5rem;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-name {
-            font-size: 1.3rem;
-            color: #8B4513;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-desc {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart {
-            background: #8B4513;
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .add-to-cart:hover {
-            background: #6d3410;
-        }
-
-        /* Cart Page */
-        .cart-container {
-            padding: 3rem 5%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .cart-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .cart-header h1 {
-            font-size: 2.5rem;
-            color: #8B4513;
-        }
-
-        .cart-items {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 1.5rem;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-item-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-name {
-            font-size: 1.2rem;
-            color: #8B4513;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-price {
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .quantity-controls {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .qty-btn {
-            background: #8B4513;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .remove-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .cart-summary {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid #8B4513;
-            text-align: right;
-        }
-
-        .cart-total {
-            font-size: 1.8rem;
-            color: #8B4513;
-            margin-bottom: 1rem;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-        }
-
-        /* Contact Page */
-        .contact-container {
-            padding: 3rem 5%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .contact-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .contact-header h1 {
-            font-size: 2.5rem;
-            color: #8B4513;
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #8B4513;
-            font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: 'Georgia', serif;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        .submit-btn {
-            background: #8B4513;
-            color: white;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        .submit-btn:hover {
-            background: #6d3410;
-        }
-
-        .contact-info {
-            margin-top: 3rem;
-            text-align: center;
-            color: #666;
-        }
-
-        .contact-info h3 {
-            color: #8B4513;
-            margin-bottom: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Artisan Bakery</div>
-            <ul class="nav-links">
-                <li><a onclick="showPage('home')">Home</a></li>
-                <li><a onclick="showPage('menu')">Menu</a></li>
-                <li><a onclick="showPage('cart')">Cart</a></li>
-                <li><a onclick="showPage('contact')">Contact</a></li>
-            </ul>
-            <div class="cart-icon" onclick="showPage('cart')">
-                🛒
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-        </nav>
-    </header>
 
-    <!-- Home Page -->
-    <div id="home" class="page active">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Freshly Baked Daily</h1>
-                <p>Handcrafted treats made with love</p>
-                <button class="btn" onclick="showPage('menu')">View Menu</button>
-            </div>
-        </section>
-        <section class="features">
-            <div class="feature">
-                <h3>🍰 Fresh Daily</h3>
-                <p>All our products are baked fresh every morning using the finest ingredients</p>
-            </div>
-            <div class="feature">
-                <h3>🎂 Custom Orders</h3>
-                <p>Special occasions deserve special cakes. We create custom designs just for you</p>
-            </div>
-            <div class="feature">
-                <h3>🥖 Artisan Quality</h3>
-                <p>Traditional recipes passed down through generations, baked to perfection</p>
-            </div>
-        </section>
-    </div>
-
-    <!-- Menu Page -->
-    <div id="menu" class="page">
-        <div class="menu-container">
-            <div class="menu-header">
-                <h1>Our Delicious Menu</h1>
-                <p>Handpicked selection of our finest baked goods</p>
-            </div>
-            <div class="products-grid" id="productsGrid"></div>
+<header>
+    <nav>
+        <div class="logo">Artisan Bakery</div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')">Home</a></li>
+            <li><a onclick="showPage('menu')">Menu</a></li>
+            <li><a onclick="showPage('cart')">Cart</a></li>
+            <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+        <div class="cart-icon" onclick="showPage('cart')">
+            🛒 <span class="cart-count" id="cartCount">0</span>
         </div>
-    </div>
+    </nav>
+</header>
 
-    <!-- Cart Page -->
-    <div id="cart" class="page">
-        <div class="cart-container">
-            <div class="cart-header">
-                <h1>Shopping Cart</h1>
-            </div>
-            <div class="cart-items" id="cartItems">
-                <div class="empty-cart">
-                    <h3>Your cart is empty</h3>
-                    <p>Add some delicious treats from our menu!</p>
-                    <button class="btn" onclick="showPage('menu')" style="margin-top: 1rem;">Browse Menu</button>
-                </div>
-            </div>
+<!-- Home -->
+<div id="home" class="page active">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Freshly Baked Daily</h1>
+            <p>Handcrafted treats made with love</p>
+            <button class="btn" onclick="showPage('menu')">View Menu</button>
         </div>
-    </div>
+    </section>
 
-    <!-- Contact Page -->
-    <div id="contact" class="page">
-        <div class="contact-container">
-            <div class="contact-header">
-                <h1>Get In Touch</h1>
-                <p>We'd love to hear from you</p>
-            </div>
-            <form class="contact-form" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-            <div class="contact-info">
-                <h3>Visit Us</h3>
-                <p>123 Baker Street, Bakery Town</p>
-                <p>Phone: (555) 123-4567</p>
-                <p>Email: hello@artisanbakery.com</p>
-            </div>
+    <section class="features">
+        <div class="feature">
+            <h3>🍰 Fresh Daily</h3>
+            <p>All our products are baked fresh every morning</p>
         </div>
+        <div class="feature">
+            <h3>🎂 Custom Orders</h3>
+            <p>Special cakes made just for you</p>
+        </div>
+        <div class="feature">
+            <h3>🥖 Artisan Quality</h3>
+            <p>Traditional recipes baked to perfection</p>
+        </div>
+    </section>
+</div>
+
+<!-- Menu -->
+<div id="menu" class="page">
+    <div class="menu-container">
+        <div class="menu-header">
+            <h1>Our Delicious Menu</h1>
+            <p>Handpicked baked goods</p>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
     </div>
+</div>
 
-    <script>
-        const products = [
-            {
-                id: 1,
-                name: "Chocolate Brownie",
-                price: 250,
-                desc: "Rich, fudgy brownie with Belgian chocolate",
-                image: "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=500&h=400&fit=crop"
-            },
-            {
-                id: 2,
-                name: "Red Velvet Cake",
-                price: 450,
-                desc: "Classic red velvet with cream cheese frosting",
-                image: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=500&h=400&fit=crop"
-            },
-            {
-                id: 3,
-                name: "Croissant",
-                price: 120,
-                desc: "Buttery, flaky French croissant",
-                image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&h=400&fit=crop"
-            },
-            {
-                id: 4,
-                name: "Blueberry Muffin",
-                price: 150,
-                desc: "Moist muffin bursting with fresh blueberries",
-                image: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=500&h=400&fit=crop"
-            },
-            {
-                id: 5,
-                name: "Sourdough Bread",
-                price: 200,
-                desc: "Artisan sourdough with perfect crust",
-                image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=500&h=400&fit=crop"
-            },
-            {
-                id: 6,
-                name: "Apple Pie",
-                price: 350,
-                desc: "Homestyle apple pie with cinnamon",
-                image: "https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=500&h=400&fit=crop"
-            },
-            {
-                id: 7,
-                name: "Chocolate Eclair",
-                price: 180,
-                desc: "Light choux pastry with chocolate glaze",
-                image: "https://images.unsplash.com/photo-1616534900864-45d0da88d9bd?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2hvY29sYXRlJTIwZWNsYWlyc3xlbnwwfHwwfHx8MA%3D%3D"
-            },
-            {
-                id: 8,
-                name: "Lemon Tart",
-                price: 280,
-                desc: "Tangy lemon curd in buttery pastry",
-                image: "https://images.unsplash.com/photo-1543508185-225c92847541?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGVtb24lMjB0YXJ0fGVufDB8fDB8fHww"
-            }
-        ];
+<!-- Cart -->
+<div id="cart" class="page">
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1>Shopping Cart</h1>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+    </div>
+</div>
 
-        let cart = [];
+<!-- Contact -->
+<div id="contact" class="page">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you</p>
+        </div>
 
-        function showPage(pageName) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageName).classList.add('active');
-            
-            if (pageName === 'menu') {
-                displayProducts();
-            } else if (pageName === 'cart') {
-                displayCart();
-            }
-        }
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Phone" required>
+            <textarea placeholder="Message" required></textarea>
+            <button class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</div>
 
-        function displayProducts() {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = products.map(product => `
-                <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-desc">${product.desc}</p>
-                        <p class="product-price">₹${product.price}</p>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-            
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            
-            updateCartCount();
-            alert(`${product.name} added to cart!`);
-        }
-
-        function updateCartCount() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').textContent = count;
-        }
-
-        function displayCart() {
-            const cartContainer = document.getElementById('cartItems');
-            
-            if (cart.length === 0) {
-                cartContainer.innerHTML = `
-                    <div class="empty-cart">
-                        <h3>Your cart is empty</h3>
-                        <p>Add some delicious treats from our menu!</p>
-                        <button class="btn" onclick="showPage('menu')" style="margin-top: 1rem;">Browse Menu</button>
-                    </div>
-                `;
-                return;
-            }
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            cartContainer.innerHTML = `
-                ${cart.map(item => `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                        <div class="cart-item-info">
-                            <h3 class="cart-item-name">${item.name}</h3>
-                            <p class="cart-item-price">₹${item.price} × ${item.quantity}</p>
-                        </div>
-                        <div class="cart-item-actions">
-                            <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span>${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            </div>
-                            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-                        </div>
-                    </div>
-                `).join('')}
-                <div class="cart-summary">
-                    <h2 class="cart-total">Total: ₹${total}</h2>
-                    <button class="btn">Proceed to Checkout</button>
-                </div>
-            `;
-        }
-
-        function updateQuantity(productId, change) {
-            const item = cart.find(i => i.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    updateCartCount();
-                    displayCart();
-                }
-            }
-        }
-
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartCount();
-            displayCart();
-        }
-
-        function handleSubmit(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            e.target.reset();
-        }
-
-        // Initialize
-        displayProducts();
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
