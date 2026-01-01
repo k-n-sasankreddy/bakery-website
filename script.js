@@ -180,9 +180,74 @@ function removeFromCart(id) {
 // Contact Form
 function handleSubmit(e) {
     e.preventDefault();
-    alert("Thank you for your message! We will get back to you soon.");
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value ;
+    const message = document.getElementById('message').value;
+    
+    // Get current date and time
+    const now = new Date();
+    const dateTime = now.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
+    // Create contact data string
+    const contactData = `
+=================================================
+ARTISAN BAKERY - CONTACT FORM SUBMISSION
+=================================================
+
+Date & Time: ${dateTime}
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+
+Message:
+${message}
+
+=================================================
+`;
+    
+    // Save to localStorage
+    saveContactSubmission(contactData);
+    
+    // Create downloadable text file
+    downloadContactData(contactData, `contact_${Date.now()}.txt`);
+    
+    alert("Thank you for your message! We will get back to you soon.\n\nYour contact information has been saved and downloaded.");
     e.target.reset();
 }
 
+// Save contact submission to localStorage
+function saveContactSubmission(data) {
+    const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+    submissions.push({
+        timestamp: Date.now(),
+        data: data
+    });
+    localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+}
+
+// Download contact data as text file
+function downloadContactData(data, filename) {
+    const blob = new Blob([data], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
 // Initialize
 displayProducts();
+
